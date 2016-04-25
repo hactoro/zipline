@@ -67,6 +67,8 @@ print(results.info())
 
 results.portfolio_value.plot(figsize=(16,4))
 
+print("commit")
+
 
 
 #==============================================================================
