@@ -14,7 +14,7 @@ import datetime
 start = datetime.datetime(2010,1,1)
 end = datetime.datetime(2015,1,1)
 
-data = web.DataReader('010620.KS','yahoo',start,end)
+data = web.DataReader('AAPL','yahoo',start,end)
 #==============================================================================
 # data['Adj Close'].plot(figsize=(16,4))
 #==============================================================================
@@ -34,14 +34,19 @@ def handle_data(context, data):
         
     ma5 = history(5, '1d', 'price').mean()
     ma20 = history(20, '1d', 'price').mean()
+    buy = False
+    sell = False    
     
-    sym = symbol('AAP')
+    
+    sym = symbol('AAPL')
     if ma5[sym] > ma20[sym]:
         order_target(sym, 1)
+        buy = True
     else:
         order_target(sym, -1)
+        sell = True
     
-    record(AAPL=data[sym].price, ma5=ma5[sym], ma20=ma20[sym])
+    record(AAPL=data[sym].price, ma5=ma5[sym], ma20=ma20[sym], buy=buy, sell=sell)
     
     
   
@@ -51,23 +56,20 @@ def handle_data(context, data):
     
 data = data[['Adj Close']]
 
-data.columns = ['AAP']
+data.columns = ['AAPL']
 
-print(data.head())
 
 data = data.tz_localize('UTC')
 
 
 from zipline.algorithm import TradingAlgorithm
-algo = TradingAlgorithm(capital_base =100000000, initialize=initialize, handle_data=handle_data, identifiers=['AAP'])
+algo = TradingAlgorithm(capital_base =100000000, initialize=initialize, handle_data=handle_data, identifiers=['AAPL'])
 
 results = algo.run(data)
 
-print(results.info())
 
 results.portfolio_value.plot(figsize=(16,4))
 
-print("commit")
 
 
 
