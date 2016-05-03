@@ -86,10 +86,7 @@ ax.plot(results.ix[results.buy == True].index, results.ma5[results.buy == True],
 ax.plot(results.ix[results.sell == True].index, results.ma5[results.sell == True],'^')
 results['ending_cash'].plot(figsize=(16,4),secondary_y=True)
 
-
-#==============================================================================
-# results['portfolio_value'].plot()
-#==============================================================================
+results['portfolio_value'].plot()
 
 #==============================================================================
 # print(results.info())
